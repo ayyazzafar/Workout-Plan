@@ -160,7 +160,7 @@ const UserSwitcher: React.FC<UserSwitcherProps> = ({
                         </div>
                       </div>
                       <div className="user-actions">
-                        {users.length > 2 && (
+                        {users.length > 1 && (
                           <button
                             className="delete-user-btn"
                             onClick={(e) => handleDeleteUser(e, user.id)}
