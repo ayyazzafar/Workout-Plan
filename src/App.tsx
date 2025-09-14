@@ -6,11 +6,12 @@ import Modal from "./components/Modal";
 import PersonModal from "./components/PersonModal";
 import EditModal from "./components/EditModal";
 import ExportModal from "./components/ExportModal";
+import ImportModal from "./components/ImportModal";
 import SpecialSection from "./components/SpecialSection";
 import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
-import { TabName, WorkoutDay, UserProfile } from "./types";
+import { TabName, WorkoutDay, UserProfile, WorkoutPlan } from "./types";
 import { workoutPlan as defaultWorkoutPlan } from "./data/workoutPlan";
 import { getCurrentUser } from "./data";
 import { useLocalStorage } from "./hooks/useLocalStorage";
@@ -43,6 +44,7 @@ const App: React.FC = () => {
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [activeExercises, setActiveExercises] = useState<Set<string>>(
     new Set()
   );
@@ -113,6 +115,19 @@ const App: React.FC = () => {
 
   const handleCloseExportModal = () => {
     setIsExportModalOpen(false);
+  };
+
+  const handleImportData = () => {
+    setIsImportModalOpen(true);
+  };
+
+  const handleCloseImportModal = () => {
+    setIsImportModalOpen(false);
+  };
+
+  const handleImportWorkoutPlan = (importedData: WorkoutPlan) => {
+    // Replace the entire workout plan data with imported data
+    updateData(importedData);
   };
 
   const handleAddUser = () => {
@@ -202,6 +217,7 @@ const App: React.FC = () => {
         onViewProfile={handleViewProfile}
         onEditData={handleEditData}
         onExportData={handleExportData}
+        onImportData={handleImportData}
         users={workoutPlan.users}
         currentUserId={workoutPlan.currentUserId}
         currentUser={currentUser}
@@ -333,6 +349,13 @@ const App: React.FC = () => {
         onClose={handleCloseExportModal}
         workoutPlan={workoutPlan}
         currentUser={currentUser}
+      />
+
+      {/* Import Modal */}
+      <ImportModal
+        isOpen={isImportModalOpen}
+        onClose={handleCloseImportModal}
+        onImport={handleImportWorkoutPlan}
       />
     </div>
   );

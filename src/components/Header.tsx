@@ -7,6 +7,7 @@ interface HeaderProps {
   onViewProfile: () => void;
   onEditData: () => void;
   onExportData: () => void;
+  onImportData: () => void;
   users: UserProfile[];
   currentUserId: string;
   currentUser: UserProfile;
@@ -19,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   onViewProfile,
   onEditData,
   onExportData,
+  onImportData,
   users,
   currentUserId,
   currentUser,
@@ -37,6 +39,26 @@ const Header: React.FC<HeaderProps> = ({
           onDeleteUser={onDeleteUser}
         />
         <div className="header-buttons">
+          <button
+            className="import-btn"
+            onClick={onImportData}
+            title="Import Workout Plan"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+          </button>
           <button
             className="export-btn"
             onClick={onExportData}

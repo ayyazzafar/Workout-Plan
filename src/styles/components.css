@@ -20,7 +20,8 @@
 /* Header buttons are now managed in user-switcher.css */
 
 .edit-btn,
-.export-btn {
+.export-btn,
+.import-btn {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   border-radius: 50%;
@@ -35,7 +36,8 @@
 }
 
 .edit-btn:hover,
-.export-btn:hover {
+.export-btn:hover,
+.import-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
 }
@@ -46,6 +48,14 @@
 
 .export-btn:hover {
   background: var(--accent-dark);
+}
+
+.import-btn {
+  background: var(--success-color, #10b981);
+}
+
+.import-btn:hover {
+  background: var(--success-dark, #059669);
 }
 
 .header h1 {
@@ -266,13 +276,15 @@
   }
 
   .edit-btn,
-  .export-btn {
+  .export-btn,
+  .import-btn {
     width: 36px;
     height: 36px;
   }
 
   .edit-btn svg,
-  .export-btn svg {
+  .export-btn svg,
+  .import-btn svg {
     width: 16px;
     height: 16px;
   }
