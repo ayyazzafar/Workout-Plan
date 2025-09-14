@@ -3,11 +3,11 @@ import Header from "./components/Header";
 import Navigation from "./components/Navigation";
 import WorkoutCard from "./components/WorkoutCard";
 import Modal from "./components/Modal";
+import PersonModal from "./components/PersonModal";
 import SpecialSection from "./components/SpecialSection";
 import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
-import PersonCard from "./components/PersonCard";
 import { TabName, WorkoutDay } from "./types";
 import { workouts, cardio, core, equipment, person } from "./data";
 
@@ -18,13 +18,13 @@ import "./styles/exercises.css";
 import "./styles/sections.css";
 import "./styles/detailed.css";
 import "./styles/modal.css";
-import "./styles/person.css";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabName>("quick-ref");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalWorkout, setModalWorkout] = useState<WorkoutDay | null>(null);
   const [modalDayKey, setModalDayKey] = useState<string>("");
+  const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [activeExercises, setActiveExercises] = useState<Set<string>>(
     new Set()
   );
@@ -49,6 +49,14 @@ const App: React.FC = () => {
     setIsModalOpen(false);
     setModalWorkout(null);
     setModalDayKey("");
+  };
+
+  const handleViewProfile = () => {
+    setIsPersonModalOpen(true);
+  };
+
+  const handleClosePersonModal = () => {
+    setIsPersonModalOpen(false);
   };
 
   const handleExerciseToggle = (exerciseId: string) => {
@@ -92,7 +100,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Header />
+      <Header onViewProfile={handleViewProfile} />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div className="container">
@@ -101,9 +109,6 @@ const App: React.FC = () => {
           id="quick-ref"
           className={`tab-content ${activeTab === "quick-ref" ? "active" : ""}`}
         >
-          {/* Person Profile Card */}
-          <PersonCard person={person} />
-
           <div className="workout-grid">
             {days.map((day) => (
               <WorkoutCard
@@ -184,7 +189,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Workout Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -192,6 +197,13 @@ const App: React.FC = () => {
         dayKey={modalDayKey}
         activeExercises={activeExercises}
         onExerciseToggle={handleExerciseToggle}
+      />
+
+      {/* Person Profile Modal */}
+      <PersonModal
+        isOpen={isPersonModalOpen}
+        onClose={handleClosePersonModal}
+        person={person}
       />
     </div>
   );
