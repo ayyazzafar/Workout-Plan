@@ -59,9 +59,27 @@ export interface Metadata {
   lastUpdated: string;
 }
 
+// Person interface
+export interface Person {
+  name: string;
+  age: number;
+  height: {
+    value: number;
+    unit: "cm" | "ft" | "in";
+  };
+  weight: {
+    value: number;
+    unit: "kg" | "lbs";
+  };
+  goal: string;
+  fitnessLevel: "Beginner" | "Intermediate" | "Advanced";
+  experience: string;
+}
+
 // Complete workout plan interface
 export interface WorkoutPlan {
   metadata: Metadata;
+  person: Person;
   workouts: {
     monday: WorkoutDay;
     tuesday: WorkoutDay;

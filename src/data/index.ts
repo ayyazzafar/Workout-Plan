@@ -4,5 +4,13 @@ import { workoutPlan } from "./workoutPlan";
 export { workoutPlan };
 
 // Export individual sections for convenience
-export const { metadata, workouts, cardio, core, equipment, tips, restDay } =
-  workoutPlan;
+export const {
+  metadata,
+  person,
+  workouts,
+  cardio,
+  core,
+  equipment,
+  tips,
+  restDay,
+} = workoutPlan;

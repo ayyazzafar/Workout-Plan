@@ -8,6 +8,22 @@ export const workoutPlan: WorkoutPlan = {
     lastUpdated: "2024-12-13",
   },
 
+  person: {
+    name: "Ayyaz Zafar",
+    age: 28,
+    height: {
+      value: 175,
+      unit: "cm",
+    },
+    weight: {
+      value: 75,
+      unit: "kg",
+    },
+    goal: "Build lean muscle mass and increase strength",
+    fitnessLevel: "Intermediate",
+    experience: "2 years consistent training",
+  },
+
   workouts: {
     monday: {
       day: "MONDAY",

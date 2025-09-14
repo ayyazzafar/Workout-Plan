@@ -7,8 +7,9 @@ import SpecialSection from "./components/SpecialSection";
 import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
+import PersonCard from "./components/PersonCard";
 import { TabName, WorkoutDay } from "./types";
-import { workouts, cardio, core, equipment } from "./data";
+import { workouts, cardio, core, equipment, person } from "./data";
 
 // Import styles
 import "./styles/globals.css";
@@ -17,6 +18,7 @@ import "./styles/exercises.css";
 import "./styles/sections.css";
 import "./styles/detailed.css";
 import "./styles/modal.css";
+import "./styles/person.css";
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabName>("quick-ref");
@@ -99,16 +101,19 @@ const App: React.FC = () => {
           id="quick-ref"
           className={`tab-content ${activeTab === "quick-ref" ? "active" : ""}`}
         >
-            <div className="workout-grid">
-              {days.map((day) => (
-                <WorkoutCard
-                  key={day}
-                  dayKey={day}
-                  workout={workouts[day]}
-                  onOpenModal={handleOpenModal}
-                />
-              ))}
-            </div>
+          {/* Person Profile Card */}
+          <PersonCard person={person} />
+
+          <div className="workout-grid">
+            {days.map((day) => (
+              <WorkoutCard
+                key={day}
+                dayKey={day}
+                workout={workouts[day]}
+                onOpenModal={handleOpenModal}
+              />
+            ))}
+          </div>
 
           {/* Cardio Section */}
           <SpecialSection
