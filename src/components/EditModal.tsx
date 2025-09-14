@@ -554,14 +554,14 @@ const EditModal: React.FC<EditModalProps> = ({
                                       dayKey as keyof typeof prev.workouts
                                     ],
                                     exercises: [
-                                      ...prev.workouts[
-                                        dayKey as keyof typeof prev.workouts
-                                      ].exercises,
                                       {
                                         name: "New Exercise",
                                         sets: "3 sets",
                                         details: ["Exercise details"],
                                       },
+                                      ...prev.workouts[
+                                        dayKey as keyof typeof prev.workouts
+                                      ].exercises,
                                     ],
                                   },
                                 },

@@ -84,6 +84,21 @@ const App: React.FC = () => {
     resetData();
   };
 
+  const handleExportData = () => {
+    const dataStr = JSON.stringify(workoutPlan, null, 2);
+    const dataUri =
+      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+    const exportFileDefaultName = `workout-plan-${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
+    linkElement.click();
+  };
+
   const handleExerciseToggle = (exerciseId: string) => {
     const newActiveExercises = new Set(activeExercises);
     if (newActiveExercises.has(exerciseId)) {
@@ -137,6 +152,7 @@ const App: React.FC = () => {
       <Header
         onViewProfile={handleViewProfile}
         onEditData={handleEditData}
+        onExportData={handleExportData}
         personName={workoutPlan.person.name}
       />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
