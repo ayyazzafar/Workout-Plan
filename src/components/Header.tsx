@@ -11,6 +11,8 @@ interface HeaderProps {
   currentUserId: string;
   currentUser: UserProfile;
   onUserChange: (userId: string) => void;
+  onAddUser: () => void;
+  onDeleteUser: (userId: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -21,14 +23,18 @@ const Header: React.FC<HeaderProps> = ({
   currentUserId,
   currentUser,
   onUserChange,
+  onAddUser,
+  onDeleteUser,
 }) => {
   return (
     <header className="header">
       <div className="header-top">
-        <UserSwitcher
+        <UserSwitcher 
           users={users}
           currentUserId={currentUserId}
           onUserChange={onUserChange}
+          onAddUser={onAddUser}
+          onDeleteUser={onDeleteUser}
         />
         <div className="header-buttons">
           <button

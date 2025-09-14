@@ -2,6 +2,7 @@
 .user-switcher {
   position: relative;
   display: inline-block;
+  z-index: 1001; /* Higher than navigation's z-index: 50 */
 }
 
 .user-switcher-btn {
@@ -74,7 +75,7 @@
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--gray-200);
-  z-index: 100;
+  z-index: 1002;
   margin-top: 0.5rem;
   overflow: hidden;
   animation: dropdownFadeIn 0.2s ease-out;
@@ -184,9 +185,60 @@
   color: var(--gray-500);
 }
 
-.check-icon {
-  color: var(--primary-color);
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   flex-shrink: 0;
+}
+
+/* Removed check-icon styles since we no longer show check icons */
+
+.delete-user-btn {
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-user-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.user-dropdown-footer {
+  padding: 0.75rem;
+  border-top: 1px solid var(--gray-200);
+  background: var(--gray-50);
+}
+
+.add-user-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.add-user-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 /* Header Layout Updates */

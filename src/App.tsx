@@ -14,6 +14,7 @@ import { TabName, WorkoutDay, UserProfile } from "./types";
 import { workoutPlan as defaultWorkoutPlan } from "./data/workoutPlan";
 import { getCurrentUser } from "./data";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { createDefaultUser } from "./utils/defaultUser";
 
 // Import styles
 import "./styles/globals.css";
@@ -114,6 +115,39 @@ const App: React.FC = () => {
     setIsExportModalOpen(false);
   };
 
+  const handleAddUser = () => {
+    const newUser = createDefaultUser(`User ${workoutPlan.users.length + 1}`);
+    const updatedPlan = {
+      ...workoutPlan,
+      users: [...workoutPlan.users, newUser],
+      currentUserId: newUser.id, // Switch to the new user
+    };
+    updateData(updatedPlan);
+  };
+
+  const handleDeleteUser = (userIdToDelete: string) => {
+    // Prevent deleting if only one user remains
+    if (workoutPlan.users.length <= 1) return;
+
+    const updatedUsers = workoutPlan.users.filter(
+      (user) => user.id !== userIdToDelete
+    );
+
+    // If we're deleting the current user, switch to the first remaining user
+    let newCurrentUserId = workoutPlan.currentUserId;
+    if (userIdToDelete === workoutPlan.currentUserId) {
+      newCurrentUserId = updatedUsers[0].id;
+    }
+
+    const updatedPlan = {
+      ...workoutPlan,
+      users: updatedUsers,
+      currentUserId: newCurrentUserId,
+    };
+
+    updateData(updatedPlan);
+  };
+
   const handleExerciseToggle = (exerciseId: string) => {
     const newActiveExercises = new Set(activeExercises);
     if (newActiveExercises.has(exerciseId)) {
@@ -172,6 +206,8 @@ const App: React.FC = () => {
         currentUserId={workoutPlan.currentUserId}
         currentUser={currentUser}
         onUserChange={handleUserChange}
+        onAddUser={handleAddUser}
+        onDeleteUser={handleDeleteUser}
       />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
 
