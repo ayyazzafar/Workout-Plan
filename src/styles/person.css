@@ -29,7 +29,11 @@
 }
 
 .person-card-header:hover {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
 }
 
 .person-card-header h3 {
@@ -52,11 +56,13 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
-  padding: 0 1.5rem;
 }
 
 .person-card.expanded .person-card-content {
   max-height: 800px;
+}
+
+.person-card-inner {
   padding: 1.5rem;
 }
 
@@ -148,7 +154,7 @@
     font-size: 0.875rem;
   }
 
-  .person-card.expanded .person-card-content {
+  .person-card-inner {
     padding: 1rem;
   }
 }

@@ -65,7 +65,8 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, className = "" }) => {
       </div>
       
       <div className="person-card-content">
-        <div className="person-detail-grid">
+        <div className="person-card-inner">
+          <div className="person-detail-grid">
           <div className="person-detail">
             <span className="detail-label">Name</span>
             <span className="detail-value">{person.name}</span>
@@ -115,6 +116,7 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, className = "" }) => {
             <h4>📈 Experience</h4>
             <p>{person.experience}</p>
           </div>
+        </div>
         </div>
       </div>
     </div>
