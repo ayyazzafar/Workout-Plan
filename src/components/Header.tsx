@@ -1,10 +1,11 @@
 import React from "react";
+import { metadata } from "../data";
 
 const Header: React.FC = () => {
   return (
     <header className="header">
-      <h1>💪 Ultimate Home Workout Plan</h1>
-      <p>6-Day Push/Pull/Legs Split for Maximum Muscle Growth</p>
+      <h1>💪 {metadata.title}</h1>
+      <p>{metadata.subtitle}</p>
     </header>
   );
 };

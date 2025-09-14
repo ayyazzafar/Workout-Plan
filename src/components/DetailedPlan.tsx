@@ -1,11 +1,19 @@
 import React from "react";
-import { WorkoutData } from "../types";
+import { WorkoutDay } from "../types";
+import { tips, restDay } from "../data";
 
 interface DetailedPlanProps {
-  workoutData: WorkoutData;
+  workouts: {
+    monday: WorkoutDay;
+    tuesday: WorkoutDay;
+    wednesday: WorkoutDay;
+    thursday: WorkoutDay;
+    friday: WorkoutDay;
+    saturday: WorkoutDay;
+  };
 }
 
-const DetailedPlan: React.FC<DetailedPlanProps> = ({ workoutData }) => {
+const DetailedPlan: React.FC<DetailedPlanProps> = ({ workouts }) => {
   const days = [
     "monday",
     "tuesday",
@@ -18,7 +26,7 @@ const DetailedPlan: React.FC<DetailedPlanProps> = ({ workoutData }) => {
   return (
     <div id="detailedContent">
       {days.map((day) => {
-        const data = workoutData[day];
+        const data = workouts[day];
         return (
           <div key={day} className="detailed-section">
             <h3>
@@ -44,15 +52,13 @@ const DetailedPlan: React.FC<DetailedPlanProps> = ({ workoutData }) => {
 
       {/* Sunday */}
       <div className="detailed-section">
-        <h3>SUNDAY - Active Recovery Day</h3>
+        <h3>{restDay.day} - {restDay.title}</h3>
         <div style={{ padding: "1.5rem" }}>
           <h4>Options:</h4>
           <ul style={{ marginLeft: "1.5rem" }}>
-            <li>30-45 minutes easy walking or cycling</li>
-            <li>20-30 minutes full body stretching</li>
-            <li>Light yoga or mobility work</li>
-            <li>Meal prep for the week</li>
-            <li>Complete rest if needed</li>
+            {restDay.options.map((option, index) => (
+              <li key={index}>{option}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -61,39 +67,19 @@ const DetailedPlan: React.FC<DetailedPlanProps> = ({ workoutData }) => {
       <div className="detailed-section">
         <h3>💡 Pro Tips for Maximum Gains</h3>
         <div className="tips-grid">
-          <div className="tip-card">
-            <h4>Progressive Overload</h4>
-            <p>
-              • Weeks 1-2: Focus on form
-              <br />
-              • Weeks 3-4: Add 2.5-5kg
-              <br />
-              • Weeks 5-6: Add reps first
-              <br />• Weeks 7-8: Deload week
-            </p>
-          </div>
-          <div className="tip-card">
-            <h4>Nutrition</h4>
-            <p>
-              • 300-500 calorie surplus
-              <br />
-              • 1.6-2.2g protein per kg
-              <br />
-              • Post-workout meal within 2h
-              <br />• 3-4 liters water daily
-            </p>
-          </div>
-          <div className="tip-card">
-            <h4>Recovery</h4>
-            <p>
-              • 7-9 hours sleep
-              <br />
-              • Take rest days seriously
-              <br />
-              • Foam rolling on off days
-              <br />• Listen to your body
-            </p>
-          </div>
+          {Object.entries(tips).map(([key, tip]) => (
+            <div key={key} className="tip-card">
+              <h4>{tip.title}</h4>
+              <p>
+                {tip.points.map((point, index) => (
+                  <span key={index}>
+                    • {point}
+                    {index < tip.points.length - 1 && <br />}
+                  </span>
+                ))}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

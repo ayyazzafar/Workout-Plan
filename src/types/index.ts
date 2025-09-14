@@ -15,16 +15,6 @@ export interface WorkoutDay {
   exercises: Exercise[];
 }
 
-// Complete workout data interface
-export interface WorkoutData {
-  monday: WorkoutDay;
-  tuesday: WorkoutDay;
-  wednesday: WorkoutDay;
-  thursday: WorkoutDay;
-  friday: WorkoutDay;
-  saturday: WorkoutDay;
-}
-
 // Cardio data interface
 export interface CardioData {
   name: string;
@@ -46,6 +36,49 @@ export interface CoreData {
 export interface EquipmentData {
   name: string;
   tooltip: string;
+}
+
+// Tips interface
+export interface TipData {
+  title: string;
+  points: string[];
+}
+
+// Rest day interface
+export interface RestDay {
+  day: string;
+  title: string;
+  options: string[];
+}
+
+// Metadata interface
+export interface Metadata {
+  title: string;
+  subtitle: string;
+  version: string;
+  lastUpdated: string;
+}
+
+// Complete workout plan interface
+export interface WorkoutPlan {
+  metadata: Metadata;
+  workouts: {
+    monday: WorkoutDay;
+    tuesday: WorkoutDay;
+    wednesday: WorkoutDay;
+    thursday: WorkoutDay;
+    friday: WorkoutDay;
+    saturday: WorkoutDay;
+  };
+  cardio: CardioData[];
+  core: CoreData[];
+  equipment: EquipmentData[];
+  tips: {
+    progressiveOverload: TipData;
+    nutrition: TipData;
+    recovery: TipData;
+  };
+  restDay: RestDay;
 }
 
 // Tab names type

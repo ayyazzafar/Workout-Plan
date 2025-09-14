@@ -8,10 +8,7 @@ import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
 import { TabName, WorkoutDay } from "./types";
-import { workoutData } from "./data/workoutData";
-import { cardioData } from "./data/cardioData";
-import { coreData } from "./data/coreData";
-import { equipmentData } from "./data/equipmentData";
+import { workouts, cardio, core, equipment } from "./data";
 
 // Import styles
 import "./styles/globals.css";
@@ -102,16 +99,16 @@ const App: React.FC = () => {
           id="quick-ref"
           className={`tab-content ${activeTab === "quick-ref" ? "active" : ""}`}
         >
-          <div className="workout-grid">
-            {days.map((day) => (
-              <WorkoutCard
-                key={day}
-                dayKey={day}
-                workout={workoutData[day]}
-                onOpenModal={handleOpenModal}
-              />
-            ))}
-          </div>
+            <div className="workout-grid">
+              {days.map((day) => (
+                <WorkoutCard
+                  key={day}
+                  dayKey={day}
+                  workout={workouts[day]}
+                  onOpenModal={handleOpenModal}
+                />
+              ))}
+            </div>
 
           {/* Cardio Section */}
           <SpecialSection
@@ -122,7 +119,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {cardioData.map((item, index) => (
+              {cardio.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -144,7 +141,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {coreData.map((item, index) => (
+              {core.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -166,7 +163,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="equipment-grid">
-              {equipmentData.map((item, index) => (
+              {equipment.map((item, index) => (
                 <EquipmentItem key={index} equipment={item} />
               ))}
             </div>
@@ -178,7 +175,7 @@ const App: React.FC = () => {
           id="detailed"
           className={`tab-content ${activeTab === "detailed" ? "active" : ""}`}
         >
-          <DetailedPlan workoutData={workoutData} />
+          <DetailedPlan workouts={workouts} />
         </div>
       </div>
 
