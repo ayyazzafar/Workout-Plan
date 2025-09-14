@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Home Workout Plan - Push/Pull/Legs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #EC4899;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Workout Grid */
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Day Card */
+        .day-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .day-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .day-header:hover {
+            background: linear-gradient(135deg, var(--gray-200) 0%, var(--gray-300) 100%);
+        }
+
+        .day-card.expanded .day-header {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+        }
+
+        .day-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .workout-badge {
+            background: white;
+            color: var(--primary);
+            padding: 0.375rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .day-card.expanded .workout-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .expand-icon {
+            width: 20px;
+            height: 20px;
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .day-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Day Content */
+        .day-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .day-card.expanded .day-content {
+            max-height: 1500px;
+        }
+
+        .day-info {
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .day-info h3 {
+            font-size: 1.125rem;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .day-info p {
+            color: var(--gray-600);
+            margin: 0.25rem 0;
+        }
+
+        /* Exercise List */
+        .exercise-list {
+            padding: 0.5rem;
+        }
+
+        .exercise-item {
+            background: var(--gray-50);
+            border-radius: 8px;
+            margin: 0.5rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .exercise-item:hover {
+            background: var(--gray-100);
+        }
+
+        .exercise-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            flex: 1;
+        }
+
+        .sets-reps {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+
+        .exercise-details {
+            padding: 0 1.25rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .exercise-item.active .exercise-details {
+            max-height: 300px;
+            padding: 0 1.25rem 1rem;
+        }
+
+        .exercise-item.active {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .exercise-item.active .exercise-header {
+            color: var(--primary);
+        }
+
+        .exercise-details ul {
+            list-style: none;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .exercise-details li {
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .exercise-details li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Special Sections */
+        .special-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            color: white;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .special-section.expanded .section-content {
+            max-height: 1000px;
+        }
+
+        .special-section.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .info-card:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .info-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            display: none;
+        }
+
+        .info-card.active .info-details {
+            display: block;
+        }
+
+        /* Equipment Section */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .equipment-item {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .equipment-item:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .equipment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gray-800);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: normal;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .equipment-item:hover .equipment-tooltip {
+            opacity: 1;
+        }
+
+        /* Detailed Plan */
+        .detailed-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .detailed-section h3 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .warmup-cooldown {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .exercise-detail {
+            background: var(--gray-50);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .exercise-detail h4 {
+            color: var(--gray-800);
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .exercise-detail ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            color: var(--gray-600);
+        }
+
+        .exercise-detail li {
+            margin: 0.25rem 0;
+        }
+
+        /* Tips Section */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+        }
+
+        .tip-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .tip-card p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .workout-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tab {
+                font-size: 0.875rem;
+                padding: 0.75rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .nav, .section-header {
+                cursor: default;
+            }
+            
+            .day-card, .special-section {
+                break-inside: avoid;
+            }
+            
+            .day-content, .section-content {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>💪 Ultimate Home Workout Plan</h1>
+        <p>6-Day Push/Pull/Legs Split for Maximum Muscle Growth</p>
+    </header>
+
+    <nav class="nav">
+        <div class="nav-container">
+            <button class="nav-tab active" onclick="showTab('quick-ref')">📊 Quick Reference</button>
+            <button class="nav-tab" onclick="showTab('detailed')">📖 Detailed Plan</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Quick Reference Tab -->
+        <div id="quick-ref" class="tab-content active">
+            <div class="workout-grid" id="workoutGrid">
+                <!-- JavaScript will populate this -->
+            </div>
+
+            <!-- Cardio Section -->
+            <div class="special-section" id="cardioSection">
+                <div class="section-header" onclick="toggleSection('cardioSection')">
+                    <h2>🏃‍♂️ Cardio Schedule</h2>
+                    <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="section-content">
+                    <div class="info-grid" id="cardioGrid">
+                        <!-- JavaScript will populate this -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Section -->
+            <div class="special-section" id="coreSection">
+                <div class="section-header" onclick="toggleSection('coreSection')">
+                    <h2>🎯 Core Training Schedule</h2>
+                    <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="section-content">
+                    <div class="info-grid" id="coreGrid">
+                        <!-- JavaScript will populate this -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipment Section -->
+            <div class="special-section" id="equipmentSection">
+                <div class="section-header" onclick="toggleSection('equipmentSection')">
+                    <h2>🏋️‍♂️ Your Equipment</h2>
+                    <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="section-content">
+                    <div class="equipment-grid" id="equipmentGrid">
+                        <!-- JavaScript will populate this -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Plan Tab -->
+        <div id="detailed" class="tab-content">
+            <div id="detailedContent">
+                <!-- JavaScript will populate this -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Workout data
+        const workoutData = {
+            monday: {
+                day: "MONDAY",
+                type: "PUSH A",
+                focus: "Chest Focus",
+                warmup: "10 minutes stationary cycle at moderate pace",
+                cooldown: "30 minutes steady-state cardio + Core work (optional)",
+                exercises: [
+                    {
+                        name: "Barbell Bench Press",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Primary chest mass builder",
+                            "Lower bar with control (2-3 seconds)",
+                            "Explosive push up, squeeze chest at top",
+                            "Rest 2-3 minutes between sets",
+                            "Progressive overload: Add 2.5kg when completing all sets"
+                        ]
+                    },
+                    {
+                        name: "DB Shoulder Press",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Can perform seated or standing",
+                            "Full range of motion - dumbbells touch at top",
+                            "Keep core tight throughout",
+                            "Alternative: Barbell military press"
+                        ]
+                    },
+                    {
+                        name: "Dumbbell Flyes",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Slight bend in elbows throughout movement",
+                            "Focus on chest stretch at bottom",
+                            "Bring dumbbells together at top, squeeze",
+                            "Use lighter weight for better form"
+                        ]
+                    },
+                    {
+                        name: "Lateral Raises",
+                        sets: "4 × 12-15",
+                        details: [
+                            "Lead with elbows, not hands",
+                            "Pause at top for 1 second",
+                            "Control the negative portion",
+                            "Last set: Drop set (reduce weight 50%, continue)"
+                        ]
+                    },
+                    {
+                        name: "Dips",
+                        sets: "3 × 8-12",
+                        details: [
+                            "Lean forward 30° for chest emphasis",
+                            "Lower until shoulders below elbows",
+                            "Add weight belt when bodyweight becomes easy",
+                            "Alternative: Decline close-grip push-ups"
+                        ]
+                    },
+                    {
+                        name: "Overhead Triceps Ext",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Use single heavy dumbbell",
+                            "Keep elbows close to head",
+                            "Full stretch at bottom position",
+                            "Don't let elbows flare out"
+                        ]
+                    }
+                ]
+            },
+            tuesday: {
+                day: "TUESDAY",
+                type: "PULL A",
+                focus: "Back Thickness",
+                warmup: "10 minutes cycle + Band pull-aparts",
+                cooldown: "30 minutes cardio + 15 minutes HIIT on air bike",
+                exercises: [
+                    {
+                        name: "Deadlifts",
+                        sets: "4 × 5-6",
+                        details: [
+                            "King of all exercises - full body mass builder",
+                            "Start with hips high, chest up, neutral spine",
+                            "Drive through heels, hips and shoulders rise together",
+                            "Lock out with glutes, don't hyperextend back",
+                            "Rest 3-4 minutes - this is heavy work"
+                        ]
+                    },
+                    {
+                        name: "Pull-Ups",
+                        sets: "4 × Max",
+                        details: [
+                            "Wide grip for maximum lat activation",
+                            "Full dead hang at bottom",
+                            "Chin over bar at top",
+                            "If can't do pull-ups: Negative reps (jump up, slow down)",
+                            "Advanced: Add weight when hitting 12+ reps"
+                        ]
+                    },
+                    {
+                        name: "Barbell Rows",
+                        sets: "4 × 8-10",
+                        details: [
+                            "45-degree torso angle",
+                            "Pull bar to lower chest/upper abdomen",
+                            "Squeeze shoulder blades together",
+                            "Don't use momentum - strict form"
+                        ]
+                    },
+                    {
+                        name: "EZ Bar Curls",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Primary bicep mass builder",
+                            "Keep elbows stationary at sides",
+                            "Full stretch at bottom, squeeze at top",
+                            "No swinging or body momentum"
+                        ]
+                    },
+                    {
+                        name: "DB Hammer Curls",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Targets brachialis for arm thickness",
+                            "Can perform alternating or together",
+                            "Keep wrists neutral throughout",
+                            "Control the negative portion"
+                        ]
+                    },
+                    {
+                        name: "Face Pulls",
+                        sets: "3 × 15-20",
+                        details: [
+                            "Use resistance band or light dumbbells",
+                            "Pull to face level, elbows high",
+                            "Focus on rear delts and rhomboids",
+                            "Hold peak contraction for 1 second"
+                        ]
+                    }
+                ]
+            },
+            wednesday: {
+                day: "WEDNESDAY",
+                type: "LEGS A",
+                focus: "Quad Focus",
+                warmup: "10 minutes cycle + Dynamic leg swings + Bodyweight squats",
+                cooldown: "30 minutes steady cardio + Leg stretches",
+                exercises: [
+                    {
+                        name: "Barbell Squats",
+                        sets: "4 × 8-10",
+                        details: [
+                            "The king of leg exercises",
+                            "Feet shoulder-width apart, toes slightly out",
+                            "Descend until hips below knees (if mobility allows)",
+                            "Drive through heels, squeeze glutes at top",
+                            "3 minutes rest between heavy sets"
+                        ]
+                    },
+                    {
+                        name: "Romanian Deadlifts",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Hamstring and glute focus",
+                            "Keep bar close to body throughout",
+                            "Hinge at hips, minimal knee bend",
+                            "Feel deep stretch in hamstrings",
+                            "Don't go too heavy initially - form is crucial"
+                        ]
+                    },
+                    {
+                        name: "Bulgarian Split Squats",
+                        sets: "3 × 10/leg",
+                        details: [
+                            "Rear foot elevated on bench",
+                            "Keep torso upright",
+                            "Drive through front heel",
+                            "Can hold dumbbells for added resistance",
+                            "Brutal for quads and glutes"
+                        ]
+                    },
+                    {
+                        name: "Walking Lunges",
+                        sets: "3 × 12/leg",
+                        details: [
+                            "Hold dumbbells at sides",
+                            "Take long strides for glute emphasis",
+                            "Keep front knee behind toes",
+                            "Push off back foot to step forward"
+                        ]
+                    },
+                    {
+                        name: "Single-Leg Calf Raises",
+                        sets: "4 × 15-20",
+                        details: [
+                            "Hold dumbbell in same-side hand",
+                            "Full range of motion - stretch to contraction",
+                            "Pause at top for 1 second",
+                            "Use other hand for balance if needed"
+                        ]
+                    },
+                    {
+                        name: "Core Circuit",
+                        sets: "3 rounds",
+                        details: [
+                            "Crunches × 20 reps",
+                            "Leg Raises × 15 reps",
+                            "Side Toe Touches × 20 reps per side",
+                            "Plank × 45-60 seconds",
+                            "Rest 30 seconds between rounds"
+                        ]
+                    }
+                ]
+            },
+            thursday: {
+                day: "THURSDAY",
+                type: "PUSH B",
+                focus: "Shoulder Focus",
+                warmup: "10 minutes cycle + Arm circles + Band work",
+                cooldown: "30 minutes cardio + Quick core work (2 exercises)",
+                exercises: [
+                    {
+                        name: "DB Bench Press",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Different angle and stabilization than barbell",
+                            "Can go deeper for better stretch",
+                            "Press dumbbells up and slightly inward",
+                            "Don't let dumbbells touch at top"
+                        ]
+                    },
+                    {
+                        name: "Arnold Press",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Hits all three deltoid heads",
+                            "Start with palms facing you",
+                            "Rotate as you press up",
+                            "Smooth, controlled rotation",
+                            "Named after Arnold Schwarzenegger"
+                        ]
+                    },
+                    {
+                        name: "Close-Grip Bench",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Hands shoulder-width apart",
+                            "Keep elbows tucked to sides",
+                            "Lower bar to lower chest",
+                            "Primary triceps mass builder"
+                        ]
+                    },
+                    {
+                        name: "Front Raises",
+                        sets: "3 × 12-15",
+                        details: [
+                            "Can use barbell or dumbbells",
+                            "Raise to eye level",
+                            "No momentum - strict form",
+                            "Slight pause at top"
+                        ]
+                    },
+                    {
+                        name: "Dips (Triceps)",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Stay more upright than chest dips",
+                            "Elbows close to body",
+                            "Lower until 90-degree elbow angle",
+                            "Add weight when proficient"
+                        ]
+                    },
+                    {
+                        name: "Skull Crushers",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Use EZ bar for wrist comfort",
+                            "Lower to forehead or slightly behind",
+                            "Keep elbows stationary",
+                            "Extend through triceps only"
+                        ]
+                    }
+                ]
+            },
+            friday: {
+                day: "FRIDAY",
+                type: "PULL B",
+                focus: "Back Width",
+                warmup: "10 minutes cycle + Scapular pull-ups",
+                cooldown: "30 minutes cardio + 15 minutes HIIT",
+                exercises: [
+                    {
+                        name: "Barbell Rows",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Underhand grip for variation",
+                            "More bicep involvement",
+                            "Pull to lower chest",
+                            "Explosive pull, controlled negative"
+                        ]
+                    },
+                    {
+                        name: "Chin-Ups",
+                        sets: "4 × Max",
+                        details: [
+                            "Underhand grip, shoulder-width",
+                            "Easier than pull-ups for most",
+                            "Great for biceps and lats",
+                            "Add weight when hitting 12+ reps"
+                        ]
+                    },
+                    {
+                        name: "Single-Arm DB Rows",
+                        sets: "4 × 10/arm",
+                        details: [
+                            "Use heavy weight",
+                            "Support with other hand on bench",
+                            "Pull dumbbell to hip",
+                            "Full stretch at bottom",
+                            "Don't rotate torso"
+                        ]
+                    },
+                    {
+                        name: "Barbell Curls",
+                        sets: "4 × 8-10",
+                        details: [
+                            "Straight bar for variation",
+                            "Shoulder-width grip",
+                            "Keep elbows locked at sides",
+                            "Try '21s' on last set (7 bottom half, 7 top half, 7 full)"
+                        ]
+                    },
+                    {
+                        name: "Incline DB Curls",
+                        sets: "3 × 10-12",
+                        details: [
+                            "Set bench to 45-degree incline",
+                            "Let arms hang for maximum stretch",
+                            "Don't let shoulders come forward",
+                            "Peak bicep contraction exercise"
+                        ]
+                    },
+                    {
+                        name: "Barbell Shrugs",
+                        sets: "4 × 12-15",
+                        details: [
+                            "Use heavy weight",
+                            "Shrug straight up",
+                            "Hold at top for 1-2 seconds",
+                            "Don't roll shoulders"
+                        ]
+                    }
+                ]
+            },
+            saturday: {
+                day: "SATURDAY",
+                type: "LEGS B",
+                focus: "Hamstring/Glute Focus",
+                warmup: "10 minutes cycle + Hip circles + Glute bridges",
+                cooldown: "30 minutes cardio + Full body stretching",
+                exercises: [
+                    {
+                        name: "Goblet Squats",
+                        sets: "4 × 10-12",
+                        details: [
+                            "Hold heavy dumbbell at chest",
+                            "Excellent for form and mobility",
+                            "Deep squat, knees track over toes",
+                            "Keep chest up throughout"
+                        ]
+                    },
+                    {
+                        name: "Deadlifts",
+                        sets: "4 × 6-8",
+                        details: [
+                            "Different rep range for power",
+                            "Focus on explosive pull",
+                            "Reset between each rep",
+                            "Perfect form essential"
+                        ]
+                    },
+                    {
+                        name: "Step-Ups",
+                        sets: "3 × 12/leg",
+                        details: [
+                            "Use bench height",
+                            "Drive through heel of working leg",
+                            "Don't push off back foot",
+                            "Hold dumbbells for resistance"
+                        ]
+                    },
+                    {
+                        name: "Reverse Lunges",
+                        sets: "3 × 12/leg",
+                        details: [
+                            "Easier on knees than forward lunges",
+                            "Step back into lunge position",
+                            "Can hold barbell on back",
+                            "Push through front heel to return"
+                        ]
+                    },
+                    {
+                        name: "Seated Calf Raises",
+                        sets: "4 × 15-20",
+                        details: [
+                            "Place barbell across knees",
+                            "Use pad for comfort",
+                            "Targets soleus muscle",
+                            "Vary foot positions each set"
+                        ]
+                    },
+                    {
+                        name: "Core Circuit",
+                        sets: "3 rounds",
+                        details: [
+                            "Same as Wednesday",
+                            "Increase reps/time if getting easier",
+                            "Focus on quality over speed",
+                            "Breathe properly throughout"
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const cardioData = [
+            {
+                name: "Pre-Workout",
+                schedule: "Every Training Day",
+                duration: "10 minutes moderate intensity",
+                equipment: "Stationary Cycle / Treadmill",
+                details: [
+                    "Target heart rate: 50-60% max",
+                    "Purpose: Increase blood flow",
+                    "Gradually increase intensity",
+                    "Focus on full body warm-up"
+                ]
+            },
+            {
+                name: "Post-Workout",
+                schedule: "Every Training Day",
+                duration: "30 minutes steady state",
+                equipment: "65-75% max heart rate",
+                details: [
+                    "Fat burning zone",
+                    "Improve cardiovascular endurance",
+                    "Aid in recovery",
+                    "Can split into 15 min intervals"
+                ]
+            },
+            {
+                name: "HIIT Sessions",
+                schedule: "Tuesday & Friday",
+                duration: "15 minutes air bike",
+                equipment: "30s sprint / 30s rest",
+                details: [
+                    "Maximum effort during sprints",
+                    "Complete recovery during rest",
+                    "15 total intervals",
+                    "Boosts metabolism for 24+ hours"
+                ]
+            },
+            {
+                name: "Active Recovery",
+                schedule: "Sunday (Optional)",
+                duration: "30-45 minutes easy pace",
+                equipment: "Walk or light cycle",
+                details: [
+                    "Very low intensity",
+                    "Promotes blood flow",
+                    "Reduces muscle soreness",
+                    "Mental relaxation"
+                ]
+            }
+        ];
+
+        const coreData = [
+            {
+                name: "Primary Core Days",
+                schedule: "Wednesday & Saturday",
+                description: "Full core circuit after legs",
+                details: [
+                    "Perform after leg workout",
+                    "3 complete circuits",
+                    "30 seconds rest between exercises",
+                    "Focus on form over speed"
+                ]
+            },
+            {
+                name: "Secondary Core",
+                schedule: "Monday & Thursday",
+                description: "2 exercises, 3 sets each",
+                details: [
+                    "Choose any 2 exercises",
+                    "Higher rep range (15-25)",
+                    "Can superset with triceps",
+                    "5-10 minutes total"
+                ]
+            },
+            {
+                name: "Core Circuit",
+                schedule: "Standard Circuit",
+                description: "Complete workout",
+                details: [
+                    "Crunches × 20",
+                    "Leg Raises × 15",
+                    "Side Touches × 20/side",
+                    "Plank × 45-60s"
+                ]
+            },
+            {
+                name: "Quick Core",
+                schedule: "Time-Saver Option",
+                description: "10 minutes max",
+                details: [
+                    "Plank × 60s",
+                    "Bicycle Crunches × 30",
+                    "Perfect for busy days",
+                    "Add weight for progression"
+                ]
+            }
+        ];
+
+        const equipmentData = [
+            {
+                name: "Dumbbells (1-20kg)",
+                tooltip: "Adjustable preferred for space saving"
+            },
+            {
+                name: "Olympic Barbell",
+                tooltip: "Standard 20kg/45lb bar"
+            },
+            {
+                name: "EZ Curl Bar",
+                tooltip: "Reduces wrist strain"
+            },
+            {
+                name: "Press Bench",
+                tooltip: "Adjustable incline preferred"
+            },
+            {
+                name: "Pull-Up/Dip Station",
+                tooltip: "Wall-mounted saves space"
+            },
+            {
+                name: "Stationary Cycle",
+                tooltip: "Low-impact cardio option"
+            }
+        ];
+
+        // Initialize the page
+        function initializePage() {
+            createWorkoutCards();
+            createCardioCards();
+            createCoreCards();
+            createEquipmentItems();
+            createDetailedPlan();
+        }
+
+        // Create workout cards
+        function createWorkoutCards() {
+            const grid = document.getElementById('workoutGrid');
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            
+            days.forEach(day => {
+                const data = workoutData[day];
+                const card = document.createElement('div');
+                card.className = 'day-card';
+                card.id = day + '-card';
+                
+                card.innerHTML = `
+                    <div class="day-header" onclick="toggleDay('${day}')">
+                        <span class="day-name">${data.day}</span>
+                        <div style="display: flex; align-items: center;">
+                            <span class="workout-badge">${data.type}</span>
+                            <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="day-content">
+                        <div class="day-info">
+                            <h3>Focus: ${data.focus}</h3>
+                            <p><strong>Warm-up:</strong> ${data.warmup}</p>
+                            <p><strong>Cool-down:</strong> ${data.cooldown}</p>
+                        </div>
+                        <div class="exercise-list">
+                            ${data.exercises.map((ex, idx) => `
+                                <div class="exercise-item" id="${day}-ex-${idx}">
+                                    <div class="exercise-header" onclick="toggleExercise('${day}-ex-${idx}')">
+                                        <span class="exercise-name">${ex.name}</span>
+                                        <span class="sets-reps">${ex.sets}</span>
+                                    </div>
+                                    <div class="exercise-details">
+                                        <ul>
+                                            ${ex.details.map(detail => `<li>${detail}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Create cardio cards
+        function createCardioCards() {
+            const grid = document.getElementById('cardioGrid');
+            
+            cardioData.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'info-card';
+                card.id = `cardio-${idx}`;
+                card.onclick = () => toggleInfo(`cardio-${idx}`);
+                
+                card.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p><strong>${item.schedule}</strong></p>
+                    <p>${item.duration}</p>
+                    <p style="font-size: 0.75rem; color: var(--gray-500);">${item.equipment}</p>
+                    <div class="info-details">
+                        ${item.details.map(detail => `<p>• ${detail}</p>`).join('')}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Create core cards
+        function createCoreCards() {
+            const grid = document.getElementById('coreGrid');
+            
+            coreData.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'info-card';
+                card.id = `core-${idx}`;
+                card.onclick = () => toggleInfo(`core-${idx}`);
+                
+                card.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p><strong>${item.schedule}</strong></p>
+                    <p>${item.description}</p>
+                    <div class="info-details">
+                        ${item.details.map(detail => `<p>• ${detail}</p>`).join('')}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Create equipment items
+        function createEquipmentItems() {
+            const grid = document.getElementById('equipmentGrid');
+            
+            equipmentData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'equipment-item';
+                div.innerHTML = `
+                    ${item.name}
+                    <span class="equipment-tooltip">${item.tooltip}</span>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        // Create detailed plan
+        function createDetailedPlan() {
+            const container = document.getElementById('detailedContent');
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            
+            days.forEach(day => {
+                const data = workoutData[day];
+                const section = document.createElement('div');
+                section.className = 'detailed-section';
+                
+                section.innerHTML = `
+                    <h3>${data.day} - ${data.type} (${data.focus})</h3>
+                    <div class="warmup-cooldown">🔥 WARM-UP: ${data.warmup}</div>
+                    ${data.exercises.map((ex, idx) => `
+                        <div class="exercise-detail">
+                            <h4>${idx + 1}. ${ex.name} - ${ex.sets}</h4>
+                            <ul>
+                                ${ex.details.map(detail => `<li>${detail}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `).join('')}
+                    <div class="warmup-cooldown">❄️ COOL-DOWN: ${data.cooldown}</div>
+                `;
+                
+                container.appendChild(section);
+            });
+            
+            // Add Sunday
+            const sunday = document.createElement('div');
+            sunday.className = 'detailed-section';
+            sunday.innerHTML = `
+                <h3>SUNDAY - Active Recovery Day</h3>
+                <div style="padding: 1.5rem;">
+                    <h4>Options:</h4>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>30-45 minutes easy walking or cycling</li>
+                        <li>20-30 minutes full body stretching</li>
+                        <li>Light yoga or mobility work</li>
+                        <li>Meal prep for the week</li>
+                        <li>Complete rest if needed</li>
+                    </ul>
+                </div>
+            `;
+            container.appendChild(sunday);
+            
+            // Add tips
+            const tips = document.createElement('div');
+            tips.className = 'detailed-section';
+            tips.innerHTML = `
+                <h3>💡 Pro Tips for Maximum Gains</h3>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <h4>Progressive Overload</h4>
+                        <p>• Weeks 1-2: Focus on form<br>
+                        • Weeks 3-4: Add 2.5-5kg<br>
+                        • Weeks 5-6: Add reps first<br>
+                        • Weeks 7-8: Deload week</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Nutrition</h4>
+                        <p>• 300-500 calorie surplus<br>
+                        • 1.6-2.2g protein per kg<br>
+                        • Post-workout meal within 2h<br>
+                        • 3-4 liters water daily</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Recovery</h4>
+                        <p>• 7-9 hours sleep<br>
+                        • Take rest days seriously<br>
+                        • Foam rolling on off days<br>
+                        • Listen to your body</p>
+                    </div>
+                </div>
+            `;
+            container.appendChild(tips);
+        }
+
+        // Toggle functions
+        function toggleDay(dayId) {
+            const card = document.getElementById(dayId + '-card');
+            card.classList.toggle('expanded');
+        }
+
+        function toggleExercise(exerciseId) {
+            const exercise = document.getElementById(exerciseId);
+            exercise.classList.toggle('active');
+        }
+
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.toggle('expanded');
+        }
+
+        function toggleInfo(infoId) {
+            const card = document.getElementById(infoId);
+            card.classList.toggle('active');
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Mark nav tab as active
+            event.target.classList.add('active');
+        }
+
+        // Initialize on load
+        window.onload = initializePage;
+    </script>
+</body>
+</html>
