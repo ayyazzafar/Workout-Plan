@@ -49,10 +49,14 @@ const UserSwitcher: React.FC<UserSwitcherProps> = ({
 
   const handleDeleteUser = (e: React.MouseEvent, userId: string) => {
     e.stopPropagation(); // Prevent triggering user select
-    if (users.length > 1 && userId !== currentUserId) { 
+    if (users.length > 1 && userId !== currentUserId) {
       // Prevent deleting last user or current user
-      const userToDelete = users.find(u => u.id === userId);
-      if (window.confirm(`Are you sure you want to delete "${userToDelete?.person.name}"'s profile? This action cannot be undone.`)) {
+      const userToDelete = users.find((u) => u.id === userId);
+      if (
+        window.confirm(
+          `Are you sure you want to delete "${userToDelete?.person.name}"'s profile? This action cannot be undone.`
+        )
+      ) {
         onDeleteUser(userId);
       }
     }
@@ -109,9 +113,8 @@ const UserSwitcher: React.FC<UserSwitcherProps> = ({
               Select Profile
             </h4>
           </div>
-          
+
           <div className="current-user-section">
-            <div className="section-label">Currently Active</div>
             <div className="current-user-card">
               <div className="user-avatar current">
                 {currentUser.person.name.charAt(0).toUpperCase()}
@@ -119,9 +122,15 @@ const UserSwitcher: React.FC<UserSwitcherProps> = ({
               <div className="user-details">
                 <div className="user-name">{currentUser.person.name}</div>
                 <div className="user-status">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="3" fill="currentColor" />
                   </svg>
                   Active Now
                 </div>
@@ -129,51 +138,53 @@ const UserSwitcher: React.FC<UserSwitcherProps> = ({
             </div>
           </div>
 
-          {users.filter(user => user.id !== currentUserId).length > 0 && (
+          {users.filter((user) => user.id !== currentUserId).length > 0 && (
             <div className="other-users-section">
               <div className="section-label">Switch To</div>
               <div className="user-list">
                 {users
-                  .filter(user => user.id !== currentUserId)
+                  .filter((user) => user.id !== currentUserId)
                   .map((user) => (
-                  <button
-                    key={user.id}
-                    className="user-item switchable"
-                    onClick={() => handleUserSelect(user.id)}
-                  >
-                    <div className="user-avatar">
-                      {user.person.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="user-details">
-                      <div className="user-name">{user.person.name}</div>
-                      <div className="user-meta">{user.person.fitnessLevel}</div>
-                    </div>
-                    <div className="user-actions">
-                      {users.length > 2 && (
-                        <button
-                          className="delete-user-btn"
-                          onClick={(e) => handleDeleteUser(e, user.id)}
-                          title="Delete Profile"
-                        >
-                          <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
+                    <button
+                      key={user.id}
+                      className="user-item switchable"
+                      onClick={() => handleUserSelect(user.id)}
+                    >
+                      <div className="user-avatar">
+                        {user.person.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="user-details">
+                        <div className="user-name">{user.person.name}</div>
+                        <div className="user-meta">
+                          {user.person.fitnessLevel}
+                        </div>
+                      </div>
+                      <div className="user-actions">
+                        {users.length > 2 && (
+                          <button
+                            className="delete-user-btn"
+                            onClick={(e) => handleDeleteUser(e, user.id)}
+                            title="Delete Profile"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                  </button>
-                ))}
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M3 6h18m-2 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    </button>
+                  ))}
               </div>
             </div>
           )}
