@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UserProfile, Person } from "../types";
+import { UserProfile } from "../types";
 
 interface EditModalProps {
   isOpen: boolean;

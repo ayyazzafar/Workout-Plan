@@ -24,10 +24,13 @@ const InfoCard: React.FC<InfoCardProps> = ({
       <p>
         <strong>{data.schedule}</strong>
       </p>
-      <p>{data.duration}</p>
-      <p style={{ fontSize: "0.75rem", color: "var(--gray-500)" }}>
-        {data.equipment}
-      </p>
+      {type === "cardio" && "duration" in data && <p>{data.duration}</p>}
+      {type === "core" && "description" in data && <p>{data.description}</p>}
+      {type === "cardio" && "equipment" in data && (
+        <p style={{ fontSize: "0.75rem", color: "var(--gray-500)" }}>
+          {data.equipment}
+        </p>
+      )}
       <div className="info-details">
         {data.details.map((detail, detailIndex) => (
           <p key={detailIndex}>• {detail}</p>
