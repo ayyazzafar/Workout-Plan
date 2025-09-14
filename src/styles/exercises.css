@@ -1,0 +1,82 @@
+/* Exercise List */
+.exercise-list {
+  padding: 0.5rem;
+}
+
+.exercise-item {
+  background: var(--gray-50);
+  border-radius: 8px;
+  margin: 0.5rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.exercise-item:hover {
+  background: var(--gray-100);
+}
+
+.exercise-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.exercise-name {
+  font-weight: 600;
+  color: var(--gray-800);
+  flex: 1;
+}
+
+.sets-reps {
+  background: var(--primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+.exercise-details {
+  padding: 0 1.25rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.exercise-item.active .exercise-details {
+  max-height: 300px;
+  padding: 0 1.25rem 1rem;
+}
+
+.exercise-item.active {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.exercise-item.active .exercise-header {
+  color: var(--primary);
+}
+
+.exercise-details ul {
+  list-style: none;
+  color: var(--gray-600);
+  font-size: 0.875rem;
+}
+
+.exercise-details li {
+  padding: 0.25rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.exercise-details li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
