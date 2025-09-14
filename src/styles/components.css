@@ -16,14 +16,7 @@
   position: relative;
 }
 
-.header-buttons {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  gap: 0.75rem;
-  z-index: 10;
-}
+/* Header buttons are now managed in user-switcher.css */
 
 .edit-btn,
 .export-btn {

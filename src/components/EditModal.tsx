@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { WorkoutPlan } from "../types";
+import { UserProfile, Person } from "../types";
 
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: WorkoutPlan;
-  onSave: (newData: WorkoutPlan) => void;
+  data: UserProfile;
+  onSave: (newData: UserProfile) => void;
   onReset: () => void;
 }
 
@@ -16,16 +16,9 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
   onReset,
 }) => {
-  const [formData, setFormData] = useState<WorkoutPlan>(data);
+  const [formData, setFormData] = useState<UserProfile>(data);
   const [activeTab, setActiveTab] = useState<
-    | "person"
-    | "metadata"
-    | "workouts"
-    | "cardio"
-    | "core"
-    | "equipment"
-    | "tips"
-    | "restday"
+    "person" | "workouts" | "cardio" | "core" | "equipment" | "tips" | "restday"
   >("person");
   const [expandedWorkoutSections, setExpandedWorkoutSections] = useState<
     Set<string>
@@ -93,15 +86,7 @@ const EditModal: React.FC<EditModalProps> = ({
     }));
   };
 
-  const handleMetadataChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      metadata: {
-        ...prev.metadata,
-        [field]: value,
-      },
-    }));
-  };
+  // Remove metadata handler as it's no longer needed
 
   const handleSave = () => {
     onSave(formData);
@@ -163,12 +148,6 @@ const EditModal: React.FC<EditModalProps> = ({
             onClick={() => setActiveTab("person")}
           >
             👤 Personal
-          </button>
-          <button
-            className={`edit-tab ${activeTab === "metadata" ? "active" : ""}`}
-            onClick={() => setActiveTab("metadata")}
-          >
-            📝 App Info
           </button>
           <button
             className={`edit-tab ${activeTab === "workouts" ? "active" : ""}`}
@@ -327,49 +306,7 @@ const EditModal: React.FC<EditModalProps> = ({
             </div>
           )}
 
-          {activeTab === "metadata" && (
-            <div className="edit-section">
-              <h3>App Information</h3>
-
-              <div className="form-grid">
-                <div className="form-group full-width">
-                  <label htmlFor="title">App Title</label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={formData.metadata.title}
-                    onChange={(e) =>
-                      handleMetadataChange("title", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="form-group full-width">
-                  <label htmlFor="subtitle">Subtitle</label>
-                  <textarea
-                    id="subtitle"
-                    value={formData.metadata.subtitle}
-                    onChange={(e) =>
-                      handleMetadataChange("subtitle", e.target.value)
-                    }
-                    rows={2}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="version">Version</label>
-                  <input
-                    type="text"
-                    id="version"
-                    value={formData.metadata.version}
-                    onChange={(e) =>
-                      handleMetadataChange("version", e.target.value)
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Removed metadata tab as it's now managed globally */}
 
           {/* REST OF TABS WOULD GO HERE - SIMPLIFIED FOR NOW */}
           {activeTab === "workouts" && (

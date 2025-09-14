@@ -5,12 +5,14 @@ import WorkoutCard from "./components/WorkoutCard";
 import Modal from "./components/Modal";
 import PersonModal from "./components/PersonModal";
 import EditModal from "./components/EditModal";
+import ExportModal from "./components/ExportModal";
 import SpecialSection from "./components/SpecialSection";
 import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
-import { TabName, WorkoutDay } from "./types";
+import { TabName, WorkoutDay, UserProfile } from "./types";
 import { workoutPlan as defaultWorkoutPlan } from "./data/workoutPlan";
+import { getCurrentUser } from "./data";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 // Import styles
@@ -20,6 +22,7 @@ import "./styles/exercises.css";
 import "./styles/sections.css";
 import "./styles/detailed.css";
 import "./styles/modal.css";
+import "./styles/user-switcher.css";
 
 const App: React.FC = () => {
   const {
@@ -28,12 +31,17 @@ const App: React.FC = () => {
     resetData,
     isLoading,
   } = useLocalStorage(defaultWorkoutPlan);
+
+  // Get current user data
+  const currentUser = getCurrentUser(workoutPlan);
+
   const [activeTab, setActiveTab] = useState<TabName>("quick-ref");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalWorkout, setModalWorkout] = useState<WorkoutDay | null>(null);
   const [modalDayKey, setModalDayKey] = useState<string>("");
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [activeExercises, setActiveExercises] = useState<Set<string>>(
     new Set()
   );
@@ -76,27 +84,34 @@ const App: React.FC = () => {
     setIsEditModalOpen(false);
   };
 
-  const handleSaveData = (newData: typeof workoutPlan) => {
-    updateData(newData);
+  const handleSaveData = (newData: UserProfile) => {
+    const updatedPlan = {
+      ...workoutPlan,
+      users: workoutPlan.users.map((user) =>
+        user.id === workoutPlan.currentUserId ? newData : user
+      ),
+    };
+    updateData(updatedPlan);
   };
 
   const handleResetData = () => {
     resetData();
   };
 
+  const handleUserChange = (userId: string) => {
+    const updatedPlan = {
+      ...workoutPlan,
+      currentUserId: userId,
+    };
+    updateData(updatedPlan);
+  };
+
   const handleExportData = () => {
-    const dataStr = JSON.stringify(workoutPlan, null, 2);
-    const dataUri =
-      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+    setIsExportModalOpen(true);
+  };
 
-    const exportFileDefaultName = `workout-plan-${
-      new Date().toISOString().split("T")[0]
-    }.json`;
-
-    const linkElement = document.createElement("a");
-    linkElement.setAttribute("href", dataUri);
-    linkElement.setAttribute("download", exportFileDefaultName);
-    linkElement.click();
+  const handleCloseExportModal = () => {
+    setIsExportModalOpen(false);
   };
 
   const handleExerciseToggle = (exerciseId: string) => {
@@ -153,7 +168,10 @@ const App: React.FC = () => {
         onViewProfile={handleViewProfile}
         onEditData={handleEditData}
         onExportData={handleExportData}
-        personName={workoutPlan.person.name}
+        users={workoutPlan.users}
+        currentUserId={workoutPlan.currentUserId}
+        currentUser={currentUser}
+        onUserChange={handleUserChange}
       />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
 
@@ -168,7 +186,7 @@ const App: React.FC = () => {
               <WorkoutCard
                 key={day}
                 dayKey={day}
-                workout={workoutPlan.workouts[day]}
+                workout={currentUser.workouts[day]}
                 onOpenModal={handleOpenModal}
               />
             ))}
@@ -183,7 +201,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {workoutPlan.cardio.map((item, index) => (
+              {currentUser.cardio.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -205,7 +223,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {workoutPlan.core.map((item, index) => (
+              {currentUser.core.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -227,7 +245,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="equipment-grid">
-              {workoutPlan.equipment.map((item, index) => (
+              {currentUser.equipment.map((item, index) => (
                 <EquipmentItem key={index} equipment={item} />
               ))}
             </div>
@@ -240,9 +258,9 @@ const App: React.FC = () => {
           className={`tab-content ${activeTab === "detailed" ? "active" : ""}`}
         >
           <DetailedPlan
-            workouts={workoutPlan.workouts}
-            tips={workoutPlan.tips}
-            restDay={workoutPlan.restDay}
+            workouts={currentUser.workouts}
+            tips={currentUser.tips}
+            restDay={currentUser.restDay}
           />
         </div>
       </div>
@@ -261,16 +279,24 @@ const App: React.FC = () => {
       <PersonModal
         isOpen={isPersonModalOpen}
         onClose={handleClosePersonModal}
-        person={workoutPlan.person}
+        person={currentUser.person}
       />
 
       {/* Edit Modal */}
       <EditModal
         isOpen={isEditModalOpen}
         onClose={handleCloseEditModal}
-        data={workoutPlan}
+        data={currentUser}
         onSave={handleSaveData}
         onReset={handleResetData}
+      />
+
+      {/* Export Modal */}
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={handleCloseExportModal}
+        workoutPlan={workoutPlan}
+        currentUser={currentUser}
       />
     </div>
   );

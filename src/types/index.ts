@@ -76,9 +76,9 @@ export interface Person {
   experience: string;
 }
 
-// Complete workout plan interface
-export interface WorkoutPlan {
-  metadata: Metadata;
+// User profile interface
+export interface UserProfile {
+  id: string;
   person: Person;
   workouts: {
     monday: WorkoutDay;
@@ -97,6 +97,13 @@ export interface WorkoutPlan {
     recovery: TipData;
   };
   restDay: RestDay;
+}
+
+// Complete workout plan interface with multi-user support
+export interface WorkoutPlan {
+  metadata: Metadata;
+  users: UserProfile[];
+  currentUserId: string;
 }
 
 // Tab names type

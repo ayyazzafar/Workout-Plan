@@ -1,62 +1,77 @@
 import React from "react";
 import { metadata } from "../data";
+import UserSwitcher from "./UserSwitcher";
+import { UserProfile } from "../types";
 
 interface HeaderProps {
   onViewProfile: () => void;
   onEditData: () => void;
   onExportData: () => void;
-  personName: string;
+  users: UserProfile[];
+  currentUserId: string;
+  currentUser: UserProfile;
+  onUserChange: (userId: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onViewProfile,
   onEditData,
   onExportData,
-  personName,
+  users,
+  currentUserId,
+  currentUser,
+  onUserChange,
 }) => {
   return (
     <header className="header">
-      <div className="header-buttons">
-        <button
-          className="export-btn"
-          onClick={onExportData}
-          title="Export Workout Plan"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
+      <div className="header-top">
+        <UserSwitcher
+          users={users}
+          currentUserId={currentUserId}
+          onUserChange={onUserChange}
+        />
+        <div className="header-buttons">
+          <button
+            className="export-btn"
+            onClick={onExportData}
+            title="Export Workout Plan"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
-            />
-          </svg>
-        </button>
-        <button
-          className="edit-btn"
-          onClick={onEditData}
-          title="Edit Workout Plan"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+              />
+            </svg>
+          </button>
+          <button
+            className="edit-btn"
+            onClick={onEditData}
+            title="Edit Workout Plan"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-            />
-          </svg>
-        </button>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="header-content">
@@ -65,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="person-name-header">
           <div className="person-info">
             <span className="person-label">Personalized for</span>
-            <span className="person-name">{personName}</span>
+            <span className="person-name">{currentUser.person.name}</span>
           </div>
           <button
             className="profile-view-btn"
