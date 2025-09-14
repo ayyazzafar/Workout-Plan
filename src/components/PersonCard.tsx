@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Person } from "../types";
 
 interface PersonCardProps {
@@ -7,6 +7,11 @@ interface PersonCardProps {
 }
 
 const PersonCard: React.FC<PersonCardProps> = ({ person, className = "" }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
   const formatHeight = () => {
     if (person.height.unit === "cm") {
       return `${person.height.value}cm`;
@@ -51,11 +56,14 @@ const PersonCard: React.FC<PersonCardProps> = ({ person, className = "" }) => {
   const bmiCategory = getBMICategory(bmi);
 
   return (
-    <div className={`person-card ${className}`}>
-      <div className="person-card-header">
+    <div className={`person-card ${isExpanded ? 'expanded' : ''} ${className}`}>
+      <div className="person-card-header" onClick={handleToggle}>
         <h3>👤 Personal Profile</h3>
+        <svg className="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
       </div>
-
+      
       <div className="person-card-content">
         <div className="person-detail-grid">
           <div className="person-detail">

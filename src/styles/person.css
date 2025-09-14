@@ -5,6 +5,11 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.person-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .person-card-header {
@@ -15,7 +20,16 @@
   );
   color: white;
   padding: 1.5rem;
-  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.person-card-header:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
 }
 
 .person-card-header h3 {
@@ -24,7 +38,25 @@
   font-weight: 600;
 }
 
+.person-card .expand-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.person-card.expanded .expand-icon {
+  transform: rotate(180deg);
+}
+
 .person-card-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 1.5rem;
+}
+
+.person-card.expanded .person-card-content {
+  max-height: 800px;
   padding: 1.5rem;
 }
 
@@ -95,6 +127,14 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+  .person-card-header {
+    padding: 1.25rem;
+  }
+
+  .person-card-header h3 {
+    font-size: 1.125rem;
+  }
+
   .person-detail-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
@@ -108,7 +148,7 @@
     font-size: 0.875rem;
   }
 
-  .person-card-content {
+  .person-card.expanded .person-card-content {
     padding: 1rem;
   }
 }
@@ -116,5 +156,9 @@
 @media (max-width: 480px) {
   .person-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .person-card-header {
+    padding: 1rem;
   }
 }
