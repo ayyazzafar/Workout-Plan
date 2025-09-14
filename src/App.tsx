@@ -4,12 +4,14 @@ import Navigation from "./components/Navigation";
 import WorkoutCard from "./components/WorkoutCard";
 import Modal from "./components/Modal";
 import PersonModal from "./components/PersonModal";
+import EditModal from "./components/EditModal";
 import SpecialSection from "./components/SpecialSection";
 import InfoCard from "./components/InfoCard";
 import EquipmentItem from "./components/EquipmentItem";
 import DetailedPlan from "./components/DetailedPlan";
 import { TabName, WorkoutDay } from "./types";
-import { workouts, cardio, core, equipment, person } from "./data";
+import { workoutPlan as defaultWorkoutPlan } from "./data/workoutPlan";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 // Import styles
 import "./styles/globals.css";
@@ -20,11 +22,18 @@ import "./styles/detailed.css";
 import "./styles/modal.css";
 
 const App: React.FC = () => {
+  const {
+    data: workoutPlan,
+    updateData,
+    resetData,
+    isLoading,
+  } = useLocalStorage(defaultWorkoutPlan);
   const [activeTab, setActiveTab] = useState<TabName>("quick-ref");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalWorkout, setModalWorkout] = useState<WorkoutDay | null>(null);
   const [modalDayKey, setModalDayKey] = useState<string>("");
   const [isPersonModalOpen, setIsPersonModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [activeExercises, setActiveExercises] = useState<Set<string>>(
     new Set()
   );
@@ -57,6 +66,22 @@ const App: React.FC = () => {
 
   const handleClosePersonModal = () => {
     setIsPersonModalOpen(false);
+  };
+
+  const handleEditData = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const handleSaveData = (newData: typeof workoutPlan) => {
+    updateData(newData);
+  };
+
+  const handleResetData = () => {
+    resetData();
   };
 
   const handleExerciseToggle = (exerciseId: string) => {
@@ -98,9 +123,22 @@ const App: React.FC = () => {
     "saturday",
   ] as const;
 
+  // Show loading state while data is being loaded
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">Loading your workout plan...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      <Header onViewProfile={handleViewProfile} />
+      <Header
+        onViewProfile={handleViewProfile}
+        onEditData={handleEditData}
+        personName={workoutPlan.person.name}
+      />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div className="container">
@@ -114,7 +152,7 @@ const App: React.FC = () => {
               <WorkoutCard
                 key={day}
                 dayKey={day}
-                workout={workouts[day]}
+                workout={workoutPlan.workouts[day]}
                 onOpenModal={handleOpenModal}
               />
             ))}
@@ -129,7 +167,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {cardio.map((item, index) => (
+              {workoutPlan.cardio.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -151,7 +189,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="info-grid">
-              {core.map((item, index) => (
+              {workoutPlan.core.map((item, index) => (
                 <InfoCard
                   key={index}
                   data={item}
@@ -173,7 +211,7 @@ const App: React.FC = () => {
             onToggle={handleSectionToggle}
           >
             <div className="equipment-grid">
-              {equipment.map((item, index) => (
+              {workoutPlan.equipment.map((item, index) => (
                 <EquipmentItem key={index} equipment={item} />
               ))}
             </div>
@@ -185,7 +223,11 @@ const App: React.FC = () => {
           id="detailed"
           className={`tab-content ${activeTab === "detailed" ? "active" : ""}`}
         >
-          <DetailedPlan workouts={workouts} />
+          <DetailedPlan
+            workouts={workoutPlan.workouts}
+            tips={workoutPlan.tips}
+            restDay={workoutPlan.restDay}
+          />
         </div>
       </div>
 
@@ -203,7 +245,16 @@ const App: React.FC = () => {
       <PersonModal
         isOpen={isPersonModalOpen}
         onClose={handleClosePersonModal}
-        person={person}
+        person={workoutPlan.person}
+      />
+
+      {/* Edit Modal */}
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        data={workoutPlan}
+        onSave={handleSaveData}
+        onReset={handleResetData}
       />
     </div>
   );

@@ -67,6 +67,27 @@ body {
 }
 
 /* Print styles */
+/* Loading Styles */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--gray-50);
+}
+
+.loading-spinner {
+  font-size: 1.25rem;
+  color: var(--primary);
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 @media print {
   .nav,
   .section-header {

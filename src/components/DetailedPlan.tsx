@@ -1,6 +1,5 @@
 import React from "react";
-import { WorkoutDay } from "../types";
-import { tips, restDay } from "../data";
+import { WorkoutDay, TipData, RestDay } from "../types";
 
 interface DetailedPlanProps {
   workouts: {
@@ -11,9 +10,15 @@ interface DetailedPlanProps {
     friday: WorkoutDay;
     saturday: WorkoutDay;
   };
+  tips?: {
+    progressiveOverload: TipData;
+    nutrition: TipData;
+    recovery: TipData;
+  };
+  restDay?: RestDay;
 }
 
-const DetailedPlan: React.FC<DetailedPlanProps> = ({ workouts }) => {
+const DetailedPlan: React.FC<DetailedPlanProps> = ({ workouts, tips, restDay }) => {
   const days = [
     "monday",
     "tuesday",
@@ -51,37 +56,41 @@ const DetailedPlan: React.FC<DetailedPlanProps> = ({ workouts }) => {
       })}
 
       {/* Sunday */}
-      <div className="detailed-section">
-        <h3>{restDay.day} - {restDay.title}</h3>
-        <div style={{ padding: "1.5rem" }}>
-          <h4>Options:</h4>
-          <ul style={{ marginLeft: "1.5rem" }}>
-            {restDay.options.map((option, index) => (
-              <li key={index}>{option}</li>
-            ))}
-          </ul>
+      {restDay && (
+        <div className="detailed-section">
+          <h3>{restDay.day} - {restDay.title}</h3>
+          <div style={{ padding: "1.5rem" }}>
+            <h4>Options:</h4>
+            <ul style={{ marginLeft: "1.5rem" }}>
+              {restDay.options.map((option, index) => (
+                <li key={index}>{option}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Pro Tips */}
-      <div className="detailed-section">
-        <h3>💡 Pro Tips for Maximum Gains</h3>
-        <div className="tips-grid">
-          {Object.entries(tips).map(([key, tip]) => (
-            <div key={key} className="tip-card">
-              <h4>{tip.title}</h4>
-              <p>
-                {tip.points.map((point, index) => (
-                  <span key={index}>
-                    • {point}
-                    {index < tip.points.length - 1 && <br />}
-                  </span>
-                ))}
-              </p>
-            </div>
-          ))}
+      {tips && (
+        <div className="detailed-section">
+          <h3>💡 Pro Tips for Maximum Gains</h3>
+          <div className="tips-grid">
+            {Object.entries(tips).map(([key, tip]) => (
+              <div key={key} className="tip-card">
+                <h4>{tip.title}</h4>
+                <p>
+                  {tip.points.map((point, index) => (
+                    <span key={index}>
+                      • {point}
+                      {index < tip.points.length - 1 && <br />}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
