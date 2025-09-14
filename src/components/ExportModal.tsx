@@ -19,7 +19,8 @@ const ExportModal: React.FC<ExportModalProps> = ({
   const exportCurrentUser = () => {
     const userData = {
       metadata: workoutPlan.metadata,
-      user: currentUser,
+      users: [currentUser], // Keep same structure with single user in array
+      currentUserId: currentUser.id,
       exportType: "single-user",
       exportDate: new Date().toISOString(),
     };
@@ -90,7 +91,22 @@ const ExportModal: React.FC<ExportModalProps> = ({
         <div className="export-options">
           <div className="export-option">
             <div className="option-header">
-              <div className="option-icon">👤</div>
+              <div className="option-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+              </div>
               <div className="option-info">
                 <h3>Current User Only</h3>
                 <p>
@@ -120,7 +136,30 @@ const ExportModal: React.FC<ExportModalProps> = ({
 
           <div className="export-option">
             <div className="option-header">
-              <div className="option-icon">👥</div>
+              <div className="option-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2.5"
+                    d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                  />
+                  <circle cx="9" cy="7" r="4" strokeWidth="2.5" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2.5"
+                    d="M22 21v-2a4 4 0 0 0-3-3.87"
+                  />
+                  <circle cx="16" cy="7" r="3" strokeWidth="2.5" />
+                </svg>
+              </div>
               <div className="option-info">
                 <h3>All Users</h3>
                 <p>
